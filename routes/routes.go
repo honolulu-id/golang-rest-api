@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"golang-rest-api/application/controllers"
+	"golang-rest-api/controllers"
 	"net/http"
 )
 

@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"golang-rest-api/application/database"
-	"golang-rest-api/application/models"
-	"golang-rest-api/application/routes"
+	"golang-rest-api/database"
+	"golang-rest-api/models"
+	"golang-rest-api/routes"
 	"os"
 )
 

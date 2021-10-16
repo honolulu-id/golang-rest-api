@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"golang-rest-api/application/config/config"
+	"golang-rest-api/config"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"

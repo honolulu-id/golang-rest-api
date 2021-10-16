@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/labstack/echo/v4"
-	"golang-rest-api/application/models"
+	"golang-rest-api/models"
 	"net/http"
 )
 

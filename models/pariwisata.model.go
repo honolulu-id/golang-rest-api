@@ -3,7 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
-	"golang-rest-api/application/database/database"
+	"golang-rest-api/database"
 	"io/ioutil"
 	"log"
 	"net/http"
