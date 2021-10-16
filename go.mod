@@ -5,7 +5,7 @@ go 1.13.4
 require (
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/godror/godror v0.25.3
+	github.com/godror/godror v0.25.3 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/mattn/go-isatty v0.0.13 // indirect

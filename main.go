@@ -9,8 +9,9 @@ import (
 )
 
 func main() {
-	db.Init()
+	database.Init()
 	godotenv.Load(".env")
 	port := os.Getenv("PORT")
+	models.pariwisata()
 	routes.Init(port)
 }
