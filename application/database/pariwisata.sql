@@ -1,0 +1,497 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Oct 16, 2021 at 10:09 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pariwisata`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aturan`
+--
+
+CREATE TABLE `aturan` (
+  `aturan_id` char(12) NOT NULL,
+  `aturan_id_pariwisata` char(12) NOT NULL,
+  `aturan_id_kriteria` char(12) NOT NULL,
+  `probabilitas` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `aturan`
+--
+
+INSERT INTO `aturan` (`aturan_id`, `aturan_id_pariwisata`, `aturan_id_kriteria`, `probabilitas`) VALUES
+('ATUR2018-002', 'PARI2018-001', 'KRIT2018-001', 0.01),
+('ATUR2018-003', 'PARI2018-001', 'KRIT2018-002', 0.75),
+('ATUR2018-004', 'PARI2018-001', 'KRIT2018-003', 0.7),
+('ATUR2018-005', 'PARI2018-001', 'KRIT2018-004', 0.01),
+('ATUR2018-006', 'PARI2018-001', 'KRIT2018-005', 0.3),
+('ATUR2018-007', 'PARI2018-001', 'KRIT2018-006', 0.64),
+('ATUR2018-008', 'PARI2018-001', 'KRIT2018-007', 0.01),
+('ATUR2018-009', 'PARI2018-001', 'KRIT2018-008', 0.01),
+('ATUR2018-010', 'PARI2018-001', 'KRIT2018-009', 0.01),
+('ATUR2018-011', 'PARI2018-001', 'KRIT2018-010', 0.92),
+('ATUR2018-012', 'PARI2018-002', 'KRIT2018-001', 0.01),
+('ATUR2018-013', 'PARI2018-002', 'KRIT2018-002', 0.77),
+('ATUR2018-014', 'PARI2018-002', 'KRIT2018-003', 0.82),
+('ATUR2018-015', 'PARI2018-002', 'KRIT2018-004', 0.5),
+('ATUR2018-016', 'PARI2018-002', 'KRIT2018-005', 0.61),
+('ATUR2018-017', 'PARI2018-002', 'KRIT2018-006', 0.89),
+('ATUR2018-018', 'PARI2018-002', 'KRIT2018-007', 0.01),
+('ATUR2018-019', 'PARI2018-002', 'KRIT2018-008', 0.01),
+('ATUR2018-020', 'PARI2018-002', 'KRIT2018-009', 0.01),
+('ATUR2018-021', 'PARI2018-002', 'KRIT2018-010', 0.92),
+('ATUR2018-022', 'PARI2018-003', 'KRIT2018-001', 0.01),
+('ATUR2018-023', 'PARI2018-003', 'KRIT2018-002', 0.43),
+('ATUR2018-024', 'PARI2018-003', 'KRIT2018-003', 0.01),
+('ATUR2018-025', 'PARI2018-003', 'KRIT2018-004', 0.01),
+('ATUR2018-026', 'PARI2018-003', 'KRIT2018-005', 0.76),
+('ATUR2018-027', 'PARI2018-003', 'KRIT2018-006', 0.81),
+('ATUR2018-028', 'PARI2018-003', 'KRIT2018-007', 0.01),
+('ATUR2018-029', 'PARI2018-003', 'KRIT2018-008', 0.01),
+('ATUR2018-030', 'PARI2018-003', 'KRIT2018-009', 0.01),
+('ATUR2018-031', 'PARI2018-003', 'KRIT2018-010', 0.78),
+('ATUR2018-032', 'PARI2018-004', 'KRIT2018-001', 0.01),
+('ATUR2018-033', 'PARI2018-004', 'KRIT2018-002', 0.79),
+('ATUR2018-034', 'PARI2018-004', 'KRIT2018-003', 0.54),
+('ATUR2018-035', 'PARI2018-004', 'KRIT2018-004', 0.23),
+('ATUR2018-036', 'PARI2018-004', 'KRIT2018-005', 0.45),
+('ATUR2018-037', 'PARI2018-004', 'KRIT2018-006', 0.75),
+('ATUR2018-038', 'PARI2018-004', 'KRIT2018-007', 0.34),
+('ATUR2018-039', 'PARI2018-004', 'KRIT2018-008', 0.01),
+('ATUR2018-040', 'PARI2018-004', 'KRIT2018-009', 0.83),
+('ATUR2018-041', 'PARI2018-004', 'KRIT2018-010', 0.76),
+('ATUR2018-042', 'PARI2018-005', 'KRIT2018-001', 0.78),
+('ATUR2018-043', 'PARI2018-005', 'KRIT2018-002', 0.73),
+('ATUR2018-044', 'PARI2018-005', 'KRIT2018-003', 0.01),
+('ATUR2018-045', 'PARI2018-005', 'KRIT2018-004', 0.34),
+('ATUR2018-046', 'PARI2018-005', 'KRIT2018-005', 0.53),
+('ATUR2018-047', 'PARI2018-005', 'KRIT2018-006', 0.01),
+('ATUR2018-048', 'PARI2018-005', 'KRIT2018-007', 0.81),
+('ATUR2018-049', 'PARI2018-005', 'KRIT2018-008', 0.72),
+('ATUR2018-050', 'PARI2018-005', 'KRIT2018-009', 0.8),
+('ATUR2018-051', 'PARI2018-005', 'KRIT2018-010', 0.01),
+('ATUR2018-052', 'PARI2018-006', 'KRIT2018-001', 0.85),
+('ATUR2018-053', 'PARI2018-006', 'KRIT2018-002', 0.76),
+('ATUR2018-054', 'PARI2018-006', 'KRIT2018-003', 0.01),
+('ATUR2018-055', 'PARI2018-006', 'KRIT2018-004', 0.01),
+('ATUR2018-056', 'PARI2018-006', 'KRIT2018-005', 0.67),
+('ATUR2018-057', 'PARI2018-006', 'KRIT2018-006', 0.23),
+('ATUR2018-058', 'PARI2018-006', 'KRIT2018-007', 0.65),
+('ATUR2018-059', 'PARI2018-006', 'KRIT2018-008', 0.01),
+('ATUR2018-060', 'PARI2018-006', 'KRIT2018-009', 0.64),
+('ATUR2018-061', 'PARI2018-006', 'KRIT2018-010', 0.01);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kriteria`
+--
+
+CREATE TABLE `kriteria` (
+  `kriteria_id` char(12) NOT NULL,
+  `kriteria_nama` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kriteria`
+--
+
+INSERT INTO `kriteria` (`kriteria_id`, `kriteria_nama`) VALUES
+('KRIT2018-001', 'Tiket Masuk Kurang dari Rp 10.000'),
+('KRIT2018-002', 'Penuh dengan pemandangan alam'),
+('KRIT2018-003', 'Terdapat areal penjualan cinderamta'),
+('KRIT2018-004', 'Memiliki Akomodasi Penginapan'),
+('KRIT2018-005', 'Lokasi bersih dan nyaman'),
+('KRIT2018-006', 'Terdapat fasilitas rumah makan'),
+('KRIT2018-007', 'Memiliki sejarah budaya'),
+('KRIT2018-008', 'Terdapat fasilitas rekreasi/taman bermain'),
+('KRIT2018-009', 'Terdapat fasilitas pemandu wisata'),
+('KRIT2018-010', 'Merupakan destinasi wisata air');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pariwisata`
+--
+
+CREATE TABLE `pariwisata` (
+  `pariwisata_id` char(12) NOT NULL,
+  `pariwisata_nama` varchar(100) NOT NULL,
+  `pariwisata_lokasi` varchar(100) NOT NULL,
+  `pariwisata_keterangan` text NOT NULL,
+  `populasi` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pariwisata`
+--
+
+INSERT INTO `pariwisata` (`pariwisata_id`, `pariwisata_nama`, `pariwisata_lokasi`, `pariwisata_keterangan`, `populasi`) VALUES
+('PARI2018-001', 'Pantai Baron', 'Tepus Gunungkidul', 'Pantai yang sangat menarik dan bagus sekali', 0.78),
+('PARI2018-002', 'Pantai Indrayanti', 'Tepus Gunungkidul', 'tepatnya sih gunungkidul', 0.75),
+('PARI2018-003', 'Pantai Nglambor', 'Tepus Gunungkidul', 'oke banget', 0.73),
+('PARI2018-004', 'Goa Pindul', 'Karangmojo Gunungkidul', 'Wisata goa', 0.68),
+('PARI2018-005', 'Goa Jomblang', 'Semanu Gunungkidul', 'goa vertikal', 0.57),
+('PARI2018-006', 'Gunung Api Purba', 'Patuk Gunungkidul', 'geo park gunungkidul', 0.65);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pilihan`
+--
+
+CREATE TABLE `pilihan` (
+  `pilihan_id` char(12) NOT NULL,
+  `pilihan_id_user` char(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pilihan`
+--
+
+INSERT INTO `pilihan` (`pilihan_id`, `pilihan_id_user`) VALUES
+('PILIH018-001', 'USER2018-002'),
+('PILIH018-002', 'USER2018-002'),
+('PILIH018-003', 'USER2018-002'),
+('PILIH018-004', 'USER2018-002'),
+('PILIH018-005', 'USER2018-002'),
+('PILIH018-006', 'USER2018-002'),
+('PILIH018-007', 'USER2018-002'),
+('PILIH018-008', 'USER2018-002'),
+('PILIH020-009', 'USER2018-002'),
+('PILIH020-010', 'USER2018-002'),
+('PILIH020-011', 'USER2018-002');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pilihan_detail`
+--
+
+CREATE TABLE `pilihan_detail` (
+  `pilihan_detail_id_aturan` char(12) NOT NULL,
+  `pilihan_detail_id_pilihan` char(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pilihan_detail`
+--
+
+INSERT INTO `pilihan_detail` (`pilihan_detail_id_aturan`, `pilihan_detail_id_pilihan`) VALUES
+('ATUR2018-009', 'PILIH018-001'),
+('ATUR2018-019', 'PILIH018-001'),
+('ATUR2018-029', 'PILIH018-001'),
+('ATUR2018-039', 'PILIH018-001'),
+('ATUR2018-049', 'PILIH018-001'),
+('ATUR2018-059', 'PILIH018-001'),
+('ATUR2018-002', 'PILIH018-001'),
+('ATUR2018-012', 'PILIH018-001'),
+('ATUR2018-022', 'PILIH018-001'),
+('ATUR2018-032', 'PILIH018-001'),
+('ATUR2018-042', 'PILIH018-001'),
+('ATUR2018-052', 'PILIH018-001'),
+('ATUR2018-004', 'PILIH018-002'),
+('ATUR2018-014', 'PILIH018-002'),
+('ATUR2018-024', 'PILIH018-002'),
+('ATUR2018-034', 'PILIH018-002'),
+('ATUR2018-044', 'PILIH018-002'),
+('ATUR2018-054', 'PILIH018-002'),
+('ATUR2018-009', 'PILIH018-002'),
+('ATUR2018-019', 'PILIH018-002'),
+('ATUR2018-029', 'PILIH018-002'),
+('ATUR2018-039', 'PILIH018-002'),
+('ATUR2018-049', 'PILIH018-002'),
+('ATUR2018-059', 'PILIH018-002'),
+('ATUR2018-002', 'PILIH018-002'),
+('ATUR2018-012', 'PILIH018-002'),
+('ATUR2018-022', 'PILIH018-002'),
+('ATUR2018-032', 'PILIH018-002'),
+('ATUR2018-042', 'PILIH018-002'),
+('ATUR2018-052', 'PILIH018-002'),
+('ATUR2018-006', 'PILIH018-003'),
+('ATUR2018-016', 'PILIH018-003'),
+('ATUR2018-026', 'PILIH018-003'),
+('ATUR2018-036', 'PILIH018-003'),
+('ATUR2018-046', 'PILIH018-003'),
+('ATUR2018-056', 'PILIH018-003'),
+('ATUR2018-009', 'PILIH018-003'),
+('ATUR2018-019', 'PILIH018-003'),
+('ATUR2018-029', 'PILIH018-003'),
+('ATUR2018-039', 'PILIH018-003'),
+('ATUR2018-049', 'PILIH018-003'),
+('ATUR2018-059', 'PILIH018-003'),
+('ATUR2018-002', 'PILIH018-003'),
+('ATUR2018-012', 'PILIH018-003'),
+('ATUR2018-022', 'PILIH018-003'),
+('ATUR2018-032', 'PILIH018-003'),
+('ATUR2018-042', 'PILIH018-003'),
+('ATUR2018-052', 'PILIH018-003'),
+('ATUR2018-011', 'PILIH018-004'),
+('ATUR2018-021', 'PILIH018-004'),
+('ATUR2018-031', 'PILIH018-004'),
+('ATUR2018-041', 'PILIH018-004'),
+('ATUR2018-051', 'PILIH018-004'),
+('ATUR2018-061', 'PILIH018-004'),
+('ATUR2018-004', 'PILIH018-004'),
+('ATUR2018-014', 'PILIH018-004'),
+('ATUR2018-024', 'PILIH018-004'),
+('ATUR2018-034', 'PILIH018-004'),
+('ATUR2018-044', 'PILIH018-004'),
+('ATUR2018-054', 'PILIH018-004'),
+('ATUR2018-009', 'PILIH018-004'),
+('ATUR2018-019', 'PILIH018-004'),
+('ATUR2018-029', 'PILIH018-004'),
+('ATUR2018-039', 'PILIH018-004'),
+('ATUR2018-049', 'PILIH018-004'),
+('ATUR2018-059', 'PILIH018-004'),
+('ATUR2018-005', 'PILIH018-005'),
+('ATUR2018-015', 'PILIH018-005'),
+('ATUR2018-025', 'PILIH018-005'),
+('ATUR2018-035', 'PILIH018-005'),
+('ATUR2018-045', 'PILIH018-005'),
+('ATUR2018-055', 'PILIH018-005'),
+('ATUR2018-010', 'PILIH018-005'),
+('ATUR2018-020', 'PILIH018-005'),
+('ATUR2018-030', 'PILIH018-005'),
+('ATUR2018-040', 'PILIH018-005'),
+('ATUR2018-050', 'PILIH018-005'),
+('ATUR2018-060', 'PILIH018-005'),
+('ATUR2018-007', 'PILIH018-005'),
+('ATUR2018-017', 'PILIH018-005'),
+('ATUR2018-027', 'PILIH018-005'),
+('ATUR2018-037', 'PILIH018-005'),
+('ATUR2018-047', 'PILIH018-005'),
+('ATUR2018-057', 'PILIH018-005'),
+('ATUR2018-005', 'PILIH018-006'),
+('ATUR2018-015', 'PILIH018-006'),
+('ATUR2018-025', 'PILIH018-006'),
+('ATUR2018-035', 'PILIH018-006'),
+('ATUR2018-045', 'PILIH018-006'),
+('ATUR2018-055', 'PILIH018-006'),
+('ATUR2018-007', 'PILIH018-006'),
+('ATUR2018-017', 'PILIH018-006'),
+('ATUR2018-027', 'PILIH018-006'),
+('ATUR2018-037', 'PILIH018-006'),
+('ATUR2018-047', 'PILIH018-006'),
+('ATUR2018-057', 'PILIH018-006'),
+('ATUR2018-006', 'PILIH018-007'),
+('ATUR2018-016', 'PILIH018-007'),
+('ATUR2018-026', 'PILIH018-007'),
+('ATUR2018-036', 'PILIH018-007'),
+('ATUR2018-046', 'PILIH018-007'),
+('ATUR2018-056', 'PILIH018-007'),
+('ATUR2018-010', 'PILIH018-007'),
+('ATUR2018-020', 'PILIH018-007'),
+('ATUR2018-030', 'PILIH018-007'),
+('ATUR2018-040', 'PILIH018-007'),
+('ATUR2018-050', 'PILIH018-007'),
+('ATUR2018-060', 'PILIH018-007'),
+('ATUR2018-002', 'PILIH018-007'),
+('ATUR2018-012', 'PILIH018-007'),
+('ATUR2018-022', 'PILIH018-007'),
+('ATUR2018-032', 'PILIH018-007'),
+('ATUR2018-042', 'PILIH018-007'),
+('ATUR2018-052', 'PILIH018-007'),
+('ATUR2018-006', 'PILIH018-008'),
+('ATUR2018-016', 'PILIH018-008'),
+('ATUR2018-026', 'PILIH018-008'),
+('ATUR2018-036', 'PILIH018-008'),
+('ATUR2018-046', 'PILIH018-008'),
+('ATUR2018-056', 'PILIH018-008'),
+('ATUR2018-010', 'PILIH018-008'),
+('ATUR2018-020', 'PILIH018-008'),
+('ATUR2018-030', 'PILIH018-008'),
+('ATUR2018-040', 'PILIH018-008'),
+('ATUR2018-050', 'PILIH018-008'),
+('ATUR2018-060', 'PILIH018-008'),
+('ATUR2018-002', 'PILIH018-008'),
+('ATUR2018-012', 'PILIH018-008'),
+('ATUR2018-022', 'PILIH018-008'),
+('ATUR2018-032', 'PILIH018-008'),
+('ATUR2018-042', 'PILIH018-008'),
+('ATUR2018-052', 'PILIH018-008'),
+('ATUR2018-006', 'PILIH020-009'),
+('ATUR2018-016', 'PILIH020-009'),
+('ATUR2018-026', 'PILIH020-009'),
+('ATUR2018-036', 'PILIH020-009'),
+('ATUR2018-046', 'PILIH020-009'),
+('ATUR2018-056', 'PILIH020-009'),
+('ATUR2018-011', 'PILIH020-009'),
+('ATUR2018-021', 'PILIH020-009'),
+('ATUR2018-031', 'PILIH020-009'),
+('ATUR2018-041', 'PILIH020-009'),
+('ATUR2018-051', 'PILIH020-009'),
+('ATUR2018-061', 'PILIH020-009'),
+('ATUR2018-010', 'PILIH020-009'),
+('ATUR2018-020', 'PILIH020-009'),
+('ATUR2018-030', 'PILIH020-009'),
+('ATUR2018-040', 'PILIH020-009'),
+('ATUR2018-050', 'PILIH020-009'),
+('ATUR2018-060', 'PILIH020-009'),
+('ATUR2018-007', 'PILIH020-009'),
+('ATUR2018-017', 'PILIH020-009'),
+('ATUR2018-027', 'PILIH020-009'),
+('ATUR2018-037', 'PILIH020-009'),
+('ATUR2018-047', 'PILIH020-009'),
+('ATUR2018-057', 'PILIH020-009'),
+('ATUR2018-005', 'PILIH020-010'),
+('ATUR2018-015', 'PILIH020-010'),
+('ATUR2018-025', 'PILIH020-010'),
+('ATUR2018-035', 'PILIH020-010'),
+('ATUR2018-045', 'PILIH020-010'),
+('ATUR2018-055', 'PILIH020-010'),
+('ATUR2018-003', 'PILIH020-010'),
+('ATUR2018-013', 'PILIH020-010'),
+('ATUR2018-023', 'PILIH020-010'),
+('ATUR2018-033', 'PILIH020-010'),
+('ATUR2018-043', 'PILIH020-010'),
+('ATUR2018-053', 'PILIH020-010'),
+('ATUR2018-010', 'PILIH020-010'),
+('ATUR2018-020', 'PILIH020-010'),
+('ATUR2018-030', 'PILIH020-010'),
+('ATUR2018-040', 'PILIH020-010'),
+('ATUR2018-050', 'PILIH020-010'),
+('ATUR2018-060', 'PILIH020-010'),
+('ATUR2018-002', 'PILIH020-010'),
+('ATUR2018-012', 'PILIH020-010'),
+('ATUR2018-022', 'PILIH020-010'),
+('ATUR2018-032', 'PILIH020-010'),
+('ATUR2018-042', 'PILIH020-010'),
+('ATUR2018-052', 'PILIH020-010'),
+('ATUR2018-006', 'PILIH020-011'),
+('ATUR2018-016', 'PILIH020-011'),
+('ATUR2018-026', 'PILIH020-011'),
+('ATUR2018-036', 'PILIH020-011'),
+('ATUR2018-046', 'PILIH020-011'),
+('ATUR2018-056', 'PILIH020-011'),
+('ATUR2018-011', 'PILIH020-011'),
+('ATUR2018-021', 'PILIH020-011'),
+('ATUR2018-031', 'PILIH020-011'),
+('ATUR2018-041', 'PILIH020-011'),
+('ATUR2018-051', 'PILIH020-011'),
+('ATUR2018-061', 'PILIH020-011'),
+('ATUR2018-004', 'PILIH020-011'),
+('ATUR2018-014', 'PILIH020-011'),
+('ATUR2018-024', 'PILIH020-011'),
+('ATUR2018-034', 'PILIH020-011'),
+('ATUR2018-044', 'PILIH020-011'),
+('ATUR2018-054', 'PILIH020-011'),
+('ATUR2018-007', 'PILIH020-011'),
+('ATUR2018-017', 'PILIH020-011'),
+('ATUR2018-027', 'PILIH020-011'),
+('ATUR2018-037', 'PILIH020-011'),
+('ATUR2018-047', 'PILIH020-011'),
+('ATUR2018-057', 'PILIH020-011');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `user_id` char(12) NOT NULL,
+  `user_username` varchar(12) NOT NULL,
+  `user_password` char(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_username`, `user_password`) VALUES
+('USER2018-001', 'admin', 'c4ca4238a0b923820dcc509a6f75849b'),
+('USER2018-002', 'User', 'c4ca4238a0b923820dcc509a6f75849b');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `aturan`
+--
+ALTER TABLE `aturan`
+  ADD PRIMARY KEY (`aturan_id`),
+  ADD KEY `aturan_id_pariwisata` (`aturan_id_pariwisata`),
+  ADD KEY `aturan_id_kriteria` (`aturan_id_kriteria`);
+
+--
+-- Indexes for table `kriteria`
+--
+ALTER TABLE `kriteria`
+  ADD PRIMARY KEY (`kriteria_id`);
+
+--
+-- Indexes for table `pariwisata`
+--
+ALTER TABLE `pariwisata`
+  ADD PRIMARY KEY (`pariwisata_id`);
+
+--
+-- Indexes for table `pilihan`
+--
+ALTER TABLE `pilihan`
+  ADD PRIMARY KEY (`pilihan_id`),
+  ADD KEY `pilihan_id_user` (`pilihan_id_user`);
+
+--
+-- Indexes for table `pilihan_detail`
+--
+ALTER TABLE `pilihan_detail`
+  ADD KEY `pilihan_detail_id_aturan` (`pilihan_detail_id_aturan`),
+  ADD KEY `pilihan_detail_id_diagnosa` (`pilihan_detail_id_pilihan`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `aturan`
+--
+ALTER TABLE `aturan`
+  ADD CONSTRAINT `aturan_ibfk_1` FOREIGN KEY (`aturan_id_pariwisata`) REFERENCES `pariwisata` (`pariwisata_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `aturan_ibfk_2` FOREIGN KEY (`aturan_id_kriteria`) REFERENCES `kriteria` (`kriteria_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pilihan`
+--
+ALTER TABLE `pilihan`
+  ADD CONSTRAINT `pilihan_ibfk_1` FOREIGN KEY (`pilihan_id_user`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pilihan_detail`
+--
+ALTER TABLE `pilihan_detail`
+  ADD CONSTRAINT `pilihan_detail_ibfk_1` FOREIGN KEY (`pilihan_detail_id_aturan`) REFERENCES `aturan` (`aturan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pilihan_detail_ibfk_2` FOREIGN KEY (`pilihan_detail_id_pilihan`) REFERENCES `pilihan` (`pilihan_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
