@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+var database *sql.DB
 var err error
 
 func Init() {
@@ -18,13 +18,13 @@ func Init() {
 	//connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp(" + conf.DB_HOST + ":" + conf.DB_NAME + ")/" + conf.DB_PORT
 	connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp(" + conf.DB_HOST + ")/" + conf.DB_NAME
 	//"user:password@/dbname"
-	db, err = sql.Open("mysql", connectionString)
+	database, err = sql.Open("mysql", connectionString)
 
 	if err != nil {
 		panic("Koneksi nya error")
 	}
 
-	err := db.Ping()
+	err := database.Ping()
 
 	if err != nil {
 		//panic("Koneksinya kelamaan")
@@ -35,5 +35,5 @@ func Init() {
 }
 
 func CreateCon() *sql.DB {
-	return db
+	return database
 }

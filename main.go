@@ -12,6 +12,6 @@ func main() {
 	database.Init()
 	godotenv.Load(".env")
 	port := os.Getenv("PORT")
-	models.pariwisata()
+	models.PariwisataData()
 	routes.Init(port)
 }

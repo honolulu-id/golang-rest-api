@@ -8,13 +8,6 @@ type Configuration struct {
 	DB_HOST string
 	DB_NAME string
 	DB_PORT string
-
-	// KHUSUS UNTUK ORACLE
-	ORACLE_USERNAME string
-	ORACLE_PASSWORD string
-	ORACLE_HOST string
-	ORACLE_DB string
-	ORACLE_PORT string
 }
 
 func GetConfig()  Configuration{

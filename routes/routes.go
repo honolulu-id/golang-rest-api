@@ -22,17 +22,17 @@ func Init(port string) *echo.Echo {
 	}))
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello World!")
+		return c.String(http.StatusOK, "Halo, selamat datang di REST API Golang.")
 	})
 
-	e.GET("/pariwisata", controllers.pariwisata)
+	e.GET("/pariwisata", controllers.PariwisataList)
 
 	if port == "" {
 		port = "80"
 	}
 
-	// address := fmt.Sprintf("%s:%s", "0.0.0.0", port)
-	address := fmt.Sprintf("%s:%s", "localhost", port)
+	address := fmt.Sprintf("%s:%s", "0.0.0.0", port)
+	// address := fmt.Sprintf("%s:%s", "localhost", port)
 	fmt.Println(address)
 	e.Start(address)
 

@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-func pariwisata(c echo.Context) error {
+func PariwisataList(c echo.Context) error {
 
-	result, err := models.pariwisata()
+	result, err := models.PariwisataData()
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})

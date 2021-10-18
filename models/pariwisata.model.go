@@ -1,11 +1,11 @@
 package models
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"golang-rest-api/database"
-	"io/ioutil"
-	"log"
+	// "io/ioutil"
+	// "log"
 	"net/http"
 )
 
@@ -17,23 +17,25 @@ type DataPariwisata struct {
 	Populasi string `json:"populasi"`
 }
 
-func pariwisata() (Response, error) {
+func PariwisataData() (Response, error) {
 	var obj DataPariwisata
 	var arrobj []DataPariwisata
 	var res Response
 
-	con := db.CreateCon()
+	con := database.CreateCon()
 
 	sqlStatement := "SELECT * FROM pariwisata order by id desc"
 
 	rows, err := con.Query(sqlStatement)
 
-	defer rows.Close()
 
 	if err != nil {
 		fmt.Println("masuk sini")
 		return res, err
 	}
+	
+	//defer ini bisa jadi harus di bawah return res
+	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.Scan(&obj.PariwisataId, &obj.PariwisataNama, &obj.PariwisataLokasi, &obj.PariwisataKeterangan, &obj.Populasi)
