@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"golang-rest-api/config"
 	"os"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -21,14 +20,13 @@ func Init() {
 	database, err = sql.Open("mysql", connectionString)
 
 	if err != nil {
-		panic("Koneksi nya error")
+		panic("Opps, get something wrong with connections.")
 	}
 
 	err := database.Ping()
 
 	if err != nil {
-		//panic("Koneksinya kelamaan")
-		fmt.Println("Koneksinyakelamaan ", err)
+		fmt.Println("Connection too long to handle request.", err)
 		os.Exit(1)
 	}
 

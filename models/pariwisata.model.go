@@ -1,11 +1,8 @@
 package models
 
 import (
-	// "encoding/json"
 	"fmt"
 	"golang-rest-api/database"
-	// "io/ioutil"
-	// "log"
 	"net/http"
 )
 
@@ -30,18 +27,20 @@ func PariwisataData() (Response, error) {
 
 
 	if err != nil {
-		fmt.Println("masuk sini")
+		fmt.Println("Data has been successfully loaded.")
 		return res, err
 	}
-	
+
 	//defer ini bisa jadi harus di bawah return res
+	//setiap koneksi yang mengakses kuery harus di close setelah tidak ada transaksi 
+	//sehingga tidak memberatkan open connection selanjutnya
 	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.Scan(&obj.PariwisataId, &obj.PariwisataNama, &obj.PariwisataLokasi, &obj.PariwisataKeterangan, &obj.Populasi)
 
 		if err != nil {
-			fmt.Println("masuk sini 2 ", err)
+			fmt.Println("Data has been successfully loaded on Rows Next.", err)
 			return res, err
 		}
 
@@ -51,6 +50,6 @@ func PariwisataData() (Response, error) {
 	res.Status = http.StatusOK
 	res.Message = "Sukses"
 	res.Data = arrobj
-	fmt.Println("berhasil 12 ", res.Status)
+	fmt.Println("Success Load Data ", res.Status)
 	return res, nil
 }
