@@ -30,8 +30,9 @@ func Init() {
 		os.Exit(1)
 	}
 
+
 }
 
-func CreateCon() *sql.DB {
+func CreateCon() *sql.DB{
 	return database
 }
