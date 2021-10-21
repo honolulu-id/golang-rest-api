@@ -36,3 +36,9 @@ func Init() {
 func CreateCon() *sql.DB{
 	return database
 }
+
+//digunakan untuk closing setiap koneksi yang pernah terjadi
+//agar tidak terjadi stuck akses
+func CloseDatabase() {
+  	database.Close()
+}
