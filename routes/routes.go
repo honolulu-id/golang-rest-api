@@ -26,6 +26,7 @@ func Init(port string) *echo.Echo {
 	})
 
 	e.GET("/pariwisata", controllers.PariwisataList)
+	e.GET("/heatmapPasien", controllers.HeatMapDataList)
 
 	if port == "" {
 		port = "80"
