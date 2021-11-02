@@ -14,4 +14,5 @@ func main() {
 	port := os.Getenv("PORT")
 	// models.PariwisataData()
 	routes.Init(port)
+	defer database.CloseDatabase()
 }

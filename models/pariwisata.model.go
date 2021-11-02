@@ -20,7 +20,7 @@ func PariwisataData() (Response, error) {
 	var res Response
 
 	con := database.CreateCon()
-	defer database.CloseDatabase()
+	// defer database.CloseDatabase()
 
 	//run sql di sini
 	sqlStatement := "SELECT * FROM pariwisata order by pariwisata_id desc"
