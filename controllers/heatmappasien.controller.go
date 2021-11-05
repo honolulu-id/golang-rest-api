@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
+	echo "github.com/labstack/echo/v4"
 	"golang-rest-api/models"
 	"net/http"
 	// "encoding/json"
@@ -18,9 +18,9 @@ type GroupByDesanoData struct {
 }
 
 type NilaiSama struct {
-	Desano string json:"desano"
-    NamaDesa string json:"nama_desa"
-    IDRs string json:"id_rs"
+	Desano string `json:"desano"`
+    NamaDesa string `json:"nama_desa"`
+    IDRs string `json:"id_rs"`
     // Waktu string json:"waktu"
 }
 
@@ -43,7 +43,11 @@ func HeatMapDataList(c echo.Context) error {
 		var Kode_Fix = MapIcdData.Desano
 		for _, DesanoData := range resultGetGroupByDesanoData.Data.([]models.GetGroupByDesano) {
 			if DesanoData.Desano == Kode_Fix {
-				nilai_sama = append(nilai_sama, MapIcdData.Desano, MapIcdData.Nama_desa, MapIcdData.Id_rs)
+				obj.Desano = MapIcdData.Desano
+				obj.NamaDesa = MapIcdData.Nama_desa
+				obj.IDRs = MapIcdData.Id_rs
+				// nilai_sama = append(nilai_sama, MapIcdData.Desano, MapIcdData.Nama_desa, MapIcdData.Id_rs)
+				nilai_sama = append(nilai_sama, obj)
 			}
 			// fmt.Printf("Kode_Fix %v\n", Kode_Fix)
 		}
