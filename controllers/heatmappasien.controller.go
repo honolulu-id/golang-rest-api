@@ -24,20 +24,38 @@ type NilaiSama struct {
     // Waktu string json:"waktu"
 }
 
+type PenyakitFormatvOne struct {
+	NamaPenyakit string `json:"nama_penyakit"`
+	KoDe string `json:"kode"`
+	KodeIcd string `json:"kode_icd"`
+}
+
+type PenyakitFormatvTwo struct {
+	JmlPasien string `json:"jml_pasien"`
+}
+
+type Coordiantes struct {
+	Longitude string `json:"longitude"`
+	Latitude string `json:"latitude"`
+}
+
 func HeatMapDataList(c echo.Context) error {
 
 	idProvinsi := c.QueryParams().Get("id_provinsi")
 	idRs := c.QueryParams().Get("id_rs")
-	// KodeIcd := c.QueryParams().Get("kode_icd")
+	Kode_Icd := c.QueryParams().Get("kode_icd")
 
 	resultGetGroupByDesanoData, err := models.GetGroupByDesanoData(idProvinsi, idRs)
 	resultGetPasienMapIcdData, err := models.GetPasienMapIcdData(idProvinsi, idRs)
 
-	//array coordiantes [] type data string default kosong{}
-	// var coordinates []string
-	// nilai_sama := make([]string, 0)
 	var nilai_sama []NilaiSama
 	var obj NilaiSama
+	var Coordiante []Coordiantes
+	var objCoordiantes Coordiantes
+	var PenyakitFormatv_1 []PenyakitFormatvOne
+	var objPenyakitFormatv_1 PenyakitFormatvOne
+	var PenyakitFormatv_2 []PenyakitFormatvTwo
+	var objPenyakitFormatv_2 PenyakitFormatvTwo
 
 	for _, MapIcdData := range resultGetPasienMapIcdData.Data.([]models.GetPasienMapIcd) {
 		var Kode_Fix = MapIcdData.Desano
@@ -46,25 +64,53 @@ func HeatMapDataList(c echo.Context) error {
 				obj.Desano = MapIcdData.Desano
 				obj.NamaDesa = MapIcdData.Nama_desa
 				obj.IDRs = MapIcdData.Id_rs
-				// nilai_sama = append(nilai_sama, MapIcdData.Desano, MapIcdData.Nama_desa, MapIcdData.Id_rs)
 				nilai_sama = append(nilai_sama, obj)
 			}
-			// fmt.Printf("Kode_Fix %v\n", Kode_Fix)
 		}
-		fmt.Printf("DesanoData %v\n", MapIcdData)
+		// fmt.Printf("DesanoData %v\n", nilai_sama)
 	}
 
-	// for _, LoopNilaiSama := range nilai_sama {
-	// resultGetLatLongDesanoData, err := models.GetLatLongDesanoData(LoopNilaiSama,idRs)
-	// resultGetPenyakitByKelurahanData, err := models.GetPenyakitByKelurahanData(KodeIcd, idProvinsi, idRs)
-	// fmt.Printf("LoopNilaiSama %v\n", nilai_sama)
-	// fmt.Printf("LoopNilaiSama %v\n", resultGetLatLongDesanoData)
-	// }
+	for _, LoopNilaiSama := range nilai_sama {
+	var Id_Desano = LoopNilaiSama.Desano
+	var Id_RumahSakit = LoopNilaiSama.IDRs
+
+	Kelurahan, _ := models.GetLatLongDesanoData(Id_Desano,idRs)
+	Penyakit, _ := models.GetPenyakitByKelurahanData(Kode_Icd, Id_Desano, Id_RumahSakit)
+
+		for _, Formatv_1 := range Penyakit.Data.([]models.GetPenyakitByKelurahan) {
+
+			objPenyakitFormatv_1.NamaPenyakit = Formatv_1.Nama_penyakit
+			objPenyakitFormatv_1.KoDe = Formatv_1.Kode
+			objPenyakitFormatv_1.KodeIcd = Formatv_1.Kode_icd
+			PenyakitFormatv_1 = append(PenyakitFormatv_1, objPenyakitFormatv_1)
+			// fmt.Printf("Penyakit %v\n", objPenyakitFormatv_1)
+		}
+
+		for _, Formatv_2 := range Penyakit.Data.([]models.GetPenyakitByKelurahan) {
+			objPenyakitFormatv_2.JmlPasien = Formatv_2.Jumlah_Pasien
+			PenyakitFormatv_2 = append(PenyakitFormatv_2, objPenyakitFormatv_2)
+			// fmt.Printf("Id_RumahSakit %v\n", PenyakitFormatv_2)
+		}
+
+		var ArrCoordinates[1][]
+
+		for i, Koordinat := range Kelurahan.Data.([]models.GetLatLongDesano) {
+			
+			objCoordiantes.Longitude = Koordinat.Longitude
+			objCoordiantes.Latitude = Koordinat.Latitude
+			Coordiante = append(Coordiante, objCoordiantes)
+			ArrCoordinates[i] = Coordiante
+			fmt.Printf("Coordiantes %v\n", ArrCoordinates)
+		}		
+	// reformat penyakit here
+	// fmt.Printf("Id_RumahSakit %v\n", Id_RumahSakit)
+
+	}
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, resultGetPasienMapIcdData)
+	return c.JSON(http.StatusOK, Coordiante)
 
 }

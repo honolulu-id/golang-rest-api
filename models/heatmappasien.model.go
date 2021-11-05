@@ -29,7 +29,7 @@ type GetPenyakitByKelurahan struct {
 	Kode_icd string `json:"kode_icd"`
 	Id_rs string `json:"id_rs"`
 	Kode_kelurahan string `json:"kode_kelurahan"`
-	Waktu string `json:"waktu"`
+	Jumlah_Pasien string `json:"jml_pasien"`
 }
 
 func GetGroupByDesanoData(id_provinsi, id_rs string) (Response, error) {
@@ -109,7 +109,7 @@ func GetPasienMapIcdData(id_provinsi, id_rs string) (Response, error) {
 	return res, nil
 }
 
-func GetPenyakitByKelurahanData(kode_icd, id_provinsi, id_rs string) (Response, error) {
+func GetPenyakitByKelurahanData(kode_icd, kode_kelurahan, id_rs string) (Response, error) {
 	// array
 	var arrobjgetPenyakitByKelurahan []GetPenyakitByKelurahan
 
@@ -121,18 +121,21 @@ func GetPenyakitByKelurahanData(kode_icd, id_provinsi, id_rs string) (Response, 
 	con := database.CreateCon()
 
 	//getPenyakitByKelurahan
-	getPenyakitByKelurahan := "select nama_penyakit, kode, kode_icd, id_rs, kode_kelurahan,waktu from penyakit_maps where kode_icd=? and id_provinsi=? and id_rs=?"
-	rowsgetPenyakitByKelurahan, err := con.Query(getPenyakitByKelurahan, kode_icd, id_provinsi, id_rs)
+	getPenyakitByKelurahan := `select nama_penyakit, kode, kode_icd, id_rs, kode_kelurahan,jml_pasien from penyakit_maps where kode_icd=? and kode_kelurahan=? and id_rs=?`
+	rowsgetPenyakitByKelurahan, err := con.Query(getPenyakitByKelurahan, kode_icd, kode_kelurahan, id_rs)
+
 	if err != nil {
-		fmt.Println("Data getPenyakitByKelurahan has been successfully loaded.")
+		fmt.Println("Data getPenyakitByKelurahan Failed loaded.")
 		return res, err
 	}
 
 	defer rowsgetPenyakitByKelurahan.Close()
 	//close
 
+	// fmt.Println("id rs", id_rs, " provinsi", id_provinsi, "kode icd", kode_icd)
+
 	for rowsgetPenyakitByKelurahan.Next() {
-		err = rowsgetPenyakitByKelurahan.Scan(&objgetPenyakitByKelurahan.Nama_penyakit,&objgetPenyakitByKelurahan.Kode, &objgetPenyakitByKelurahan.Kode_icd,&objgetPenyakitByKelurahan.Id_rs,&objgetPenyakitByKelurahan.Kode_kelurahan,&objgetPenyakitByKelurahan.Waktu)
+		err = rowsgetPenyakitByKelurahan.Scan(&objgetPenyakitByKelurahan.Nama_penyakit,&objgetPenyakitByKelurahan.Kode, &objgetPenyakitByKelurahan.Kode_icd,&objgetPenyakitByKelurahan.Id_rs,&objgetPenyakitByKelurahan.Kode_kelurahan,&objgetPenyakitByKelurahan.Jumlah_Pasien)
 		if err != nil {
 			fmt.Println("Data getPenyakitByKelurahan has been successfully loaded on Rows Next.", err)
 			return res, err
@@ -145,7 +148,7 @@ func GetPenyakitByKelurahanData(kode_icd, id_provinsi, id_rs string) (Response, 
 	res.Status = http.StatusOK
 	res.Message = "Sukses"
 	res.Data = arrobjgetPenyakitByKelurahan
-	fmt.Println("Success Load Data ", res.Status)
+	// fmt.Println("Success Load Data ", kode_icd)
 	return res, nil
 }
 
