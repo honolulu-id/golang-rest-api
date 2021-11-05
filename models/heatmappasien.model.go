@@ -6,24 +6,24 @@ import (
 	"net/http"
 )
 
-type getGroupByDesano struct {
+type GetGroupByDesano struct {
 	Desano string `json:"desano"`
 }
 
-type getLatLongDesano struct {
+type GetLatLongDesano struct {
 	Longitude string `json:"longitude"`
 	Latitude  string `json:"latitude"`
 }
 
 
-type getPasienMapIcd struct {
+type GetPasienMapIcd struct {
 	Desano string `json:"desano"`
 	Nama_desa string `json:"nama_desa"`
 	Id_rs string `json:"id_rs"`
 	Waktu string `json:"waktu"`
 }
 
-type getPenyakitByKelurahan struct {
+type GetPenyakitByKelurahan struct {
 	Nama_penyakit string `json:"nama_penyakit"`
 	Kode string `json:"kode"`
 	Kode_icd string `json:"kode_icd"`
@@ -32,20 +32,20 @@ type getPenyakitByKelurahan struct {
 	Waktu string `json:"waktu"`
 }
 
-func GetGroupByDesanoData() (Response, error) {
+func GetGroupByDesanoData(id_provinsi, id_rs string) (Response, error) {
 	// array
-	var arrobjgetGroupByDesano []getGroupByDesano
+	var arrobjgetGroupByDesano []GetGroupByDesano
 
 	// object
-	var objgetGroupByDesano getGroupByDesano
+	var objgetGroupByDesano GetGroupByDesano
 
 	var res Response
 
 	con := database.CreateCon()
 
 	//getGroupByDesano
-	getGroupByDesano := "select desano from kelurahan_maps where id_provinsi=11 and id_rs=1 group by desano desc"
-	rowsgetGroupByDesano, err := con.Query(getGroupByDesano)
+	getGroupByDesano := "select desano from kelurahan_maps where id_provinsi=? and id_rs=? group by desano desc"
+	rowsgetGroupByDesano, err := con.Query(getGroupByDesano, id_provinsi, id_rs)
 	if err != nil {
 		fmt.Println("Data getGroupByDesano has been successfully loaded.")
 		return res, err
@@ -71,19 +71,19 @@ func GetGroupByDesanoData() (Response, error) {
 	return res, nil
 }
 
-func GetPasienMapIcdData() (Response, error) {
+func GetPasienMapIcdData(id_provinsi, id_rs string) (Response, error) {
 	// array
-	var arrobjgetPasienMapIcd []getPasienMapIcd
+	var arrobjgetPasienMapIcd []GetPasienMapIcd
 	// object
-	var objgetPasienMapIcd getPasienMapIcd
+	var objgetPasienMapIcd GetPasienMapIcd
 
 	var res Response
 
 	con := database.CreateCon()
 
 	//getPasienMapIcd
-	getPasienMapIcd := "select desano, nama_desa, id_rs, waktu from pasien_maps where id_provinsi=11 and id_rs=1 order by desano asc"
-	rowsgetPasienMapIcd, err := con.Query(getPasienMapIcd)
+	getPasienMapIcd := "select desano, nama_desa, id_rs, waktu from pasien_maps where id_provinsi=? and id_rs=? order by desano asc"
+	rowsgetPasienMapIcd, err := con.Query(getPasienMapIcd, id_provinsi, id_rs)
 	if err != nil {
 		fmt.Println("Data getPasienMapIcd has been successfully loaded.")
 		return res, err
@@ -109,20 +109,20 @@ func GetPasienMapIcdData() (Response, error) {
 	return res, nil
 }
 
-func GetPenyakitByKelurahanData() (Response, error) {
+func GetPenyakitByKelurahanData(kode_icd, id_provinsi, id_rs string) (Response, error) {
 	// array
-	var arrobjgetPenyakitByKelurahan []getPenyakitByKelurahan
+	var arrobjgetPenyakitByKelurahan []GetPenyakitByKelurahan
 
 	// object
-	var objgetPenyakitByKelurahan getPenyakitByKelurahan
+	var objgetPenyakitByKelurahan GetPenyakitByKelurahan
 
 	var res Response
 
 	con := database.CreateCon()
 
 	//getPenyakitByKelurahan
-	getPenyakitByKelurahan := "select nama_penyakit, kode, kode_icd, id_rs, kode_kelurahan,waktu from penyakit_maps where kode_icd=11134 and id_rs=1 and id_provinsi=11"
-	rowsgetPenyakitByKelurahan, err := con.Query(getPenyakitByKelurahan)
+	getPenyakitByKelurahan := "select nama_penyakit, kode, kode_icd, id_rs, kode_kelurahan,waktu from penyakit_maps where kode_icd=? and id_provinsi=? and id_rs=?"
+	rowsgetPenyakitByKelurahan, err := con.Query(getPenyakitByKelurahan, kode_icd, id_provinsi, id_rs)
 	if err != nil {
 		fmt.Println("Data getPenyakitByKelurahan has been successfully loaded.")
 		return res, err
@@ -149,20 +149,20 @@ func GetPenyakitByKelurahanData() (Response, error) {
 	return res, nil
 }
 
-func GetLatLongDesanoData() (Response, error) {
+func GetLatLongDesanoData(desano, id_rs string) (Response, error) {
 	// array
-	var arrobjgetLatLongDesano []getLatLongDesano
+	var arrobjgetLatLongDesano []GetLatLongDesano
 
 	// object
-	var objgetLatLongDesano getLatLongDesano
+	var objgetLatLongDesano GetLatLongDesano
 
 	var res Response
 
 	con := database.CreateCon()
 
 	//getGroupByDesano
-	getLatLongDesano := "select latitude, longitude from kelurahan_maps where id_provinsi=11 and id_rs=1"
-	rowsgetLatLongDesano, err := con.Query(getLatLongDesano)
+	getLatLongDesano := "select latitude, longitude from kelurahan_maps where desano= ? and id_rs= ?"
+	rowsgetLatLongDesano, err := con.Query(getLatLongDesano, desano, id_rs)
 	if err != nil {
 		fmt.Println("Data getLatLongDesano has been successfully loaded.")
 		return res, err
