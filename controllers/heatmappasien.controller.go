@@ -92,16 +92,13 @@ func HeatMapDataList(c echo.Context) error {
 			// fmt.Printf("Id_RumahSakit %v\n", PenyakitFormatv_2)
 		}
 
-		var ArrCoordinates[1][]
-
-		for i, Koordinat := range Kelurahan.Data.([]models.GetLatLongDesano) {
-			
+		for _, Koordinat := range Kelurahan.Data.([]models.GetLatLongDesano) {
 			objCoordiantes.Longitude = Koordinat.Longitude
 			objCoordiantes.Latitude = Koordinat.Latitude
 			Coordiante = append(Coordiante, objCoordiantes)
-			ArrCoordinates[i] = Coordiante
-			fmt.Printf("Coordiantes %v\n", ArrCoordinates)
-		}		
+			fmt.Printf("Coordiantes %v\n", Koordinat)
+		}
+
 	// reformat penyakit here
 	// fmt.Printf("Id_RumahSakit %v\n", Id_RumahSakit)
 
