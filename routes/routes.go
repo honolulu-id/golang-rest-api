@@ -21,6 +21,9 @@ func Init(port string) *echo.Echo {
 		return false, nil
 	}))
 
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(1000)))
+
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Halo, selamat datang di REST API Golang.")
 	})

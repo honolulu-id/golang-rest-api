@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"golang-rest-api/models"
 	"net/http"
+	"time"
 
 	echo "github.com/labstack/echo/v4"
 	// "encoding/json"
@@ -65,6 +65,90 @@ func HeatMapDataList(c echo.Context) error {
 	idRs := c.QueryParams().Get("id_rs")
 	Kode_Icd := c.QueryParams().Get("kode_icd")
 
+	resultGetGroupByDesanoData, _ := models.GetGroupByDesanoData(idProvinsi, idRs)
+	resultGetPasienMapIcdData, _ := models.GetPasienMapIcdDataV2(idProvinsi, idRs)
+
+	var nilai_sama []NilaiSama
+	var obj NilaiSama
+	var Coordiante []Coordiantes
+	var objCoordiantes Coordiantes
+	var objPenyakitFormatv_1 PenyakitFormatvOne
+	var featuresObj Features
+	var featuresArrObj []Features 
+	var geometry Geometry
+
+	var propertiesObj Properties
+	
+	for _, MapIcdData := range resultGetPasienMapIcdData {
+		var Kode_Fix = MapIcdData.Desano
+
+		for _, DesanoData := range resultGetGroupByDesanoData.Data.([]models.GetGroupByDesano) {
+			if DesanoData.Desano == Kode_Fix {
+				obj.Desano = MapIcdData.Desano
+				obj.NamaDesa = MapIcdData.Nama_desa
+				obj.IDRs = MapIcdData.Id_rs
+				nilai_sama = append(nilai_sama, obj)
+			}
+		}
+
+	}
+
+	for _, loopnilai := range nilai_sama {
+
+		var Id_Desano = loopnilai.Desano
+		var Id_RumahSakit = loopnilai.IDRs
+		Kelurahan, _ := models.GetLatLongDesanoDataV2(Id_Desano,idRs)
+
+		for _, Koordinat := range Kelurahan {
+			objCoordiantes.Longitude = Koordinat.Longitude
+			objCoordiantes.Latitude = Koordinat.Latitude
+			Coordiante = append(Coordiante, objCoordiantes)
+		}
+
+		Penyakit, _ := models.GetPenyakitByKelurahanDataV2(Kode_Icd, Id_Desano, Id_RumahSakit)
+		objPenyakitFormatv_1.NamaPenyakit = Penyakit.Nama_penyakit
+		objPenyakitFormatv_1.KoDe = Penyakit.Kode
+		objPenyakitFormatv_1.KodeIcd = Penyakit.Kode_icd
+
+		propertiesObj.Desano = Id_Desano
+		propertiesObj.IDRs = Id_RumahSakit
+		propertiesObj.NamaDesa = loopnilai.NamaDesa
+		propertiesObj.JmlPasien = Penyakit.Jumlah_Pasien
+
+		geometry.Type = "MultiPolygon"
+		geometry.Coordinates = Coordiante
+
+		featuresObj.Type = "Feature"
+		featuresObj.Penyakit = objPenyakitFormatv_1
+		featuresObj.Properties = propertiesObj
+		featuresObj.Geometry = geometry
+
+		featuresArrObj = append(featuresArrObj, featuresObj)
+	}
+
+	var res models.ResponseApi
+
+	if nilai_sama == nil {
+		res.Status = false
+		res.Message = "gagal mendapatkan data"
+		res.Data = nilai_sama
+		return c.JSON(http.StatusOK, res)
+	}
+
+	res.Status = true
+	res.Message = "Berhasil mendapatkan data"
+	res.Data = featuresArrObj
+
+	time.Sleep(100 * time.Second)
+	return c.JSON(http.StatusOK, res)
+}
+
+func HeatMapDataListBackup(c echo.Context) error {
+	
+	idProvinsi := c.QueryParams().Get("id_provinsi")
+	idRs := c.QueryParams().Get("id_rs")
+	Kode_Icd := c.QueryParams().Get("kode_icd")
+
 	resultGetGroupByDesanoData, err := models.GetGroupByDesanoData(idProvinsi, idRs)
 	resultGetPasienMapIcdData, err := models.GetPasienMapIcdData(idProvinsi, idRs)
 
@@ -112,12 +196,13 @@ func HeatMapDataList(c echo.Context) error {
 
 		// fmt.Println("id desano", Id_Desano)
 
-		Kelurahan, _ := models.GetLatLongDesanoData(Id_Desano,idRs)
+		// Kelurahan, _ := models.GetLatLongDesanoData(Id_Desano,idRs)
+		Kelurahan, _ := models.GetLatLongDesanoDataV2(Id_Desano,idRs)
 		// Penyakit, _ := models.GetPenyakitByKelurahanData(Kode_Icd, Id_Desano, Id_RumahSakit)
 		Penyakit, _ := models.GetPenyakitByKelurahanDataV2(Kode_Icd, Id_Desano, Id_RumahSakit)
-		fmt.Println("data penyakit", Penyakit)
+		// fmt.Println("data penyakit", Penyakit)
 
-		for _, Koordinat := range Kelurahan.Data.([]models.GetLatLongDesano) {
+		for _, Koordinat := range Kelurahan {
 			objCoordiantes.Longitude = Koordinat.Longitude
 			objCoordiantes.Latitude = Koordinat.Latitude
 			Coordiante = append(Coordiante, objCoordiantes)
@@ -164,6 +249,9 @@ func HeatMapDataList(c echo.Context) error {
 		featuresArrObj = append(featuresArrObj, featuresObj)
 
 	}
+
+	time.Sleep(10 * time.Second)
+	return c.JSON(http.StatusOK, Coordiante)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})

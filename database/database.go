@@ -18,6 +18,7 @@ func Init() {
 	connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp(" + conf.DB_HOST + ")/" + conf.DB_NAME
 	//"user:password@/dbname"
 	database, err = sql.Open("mysql", connectionString)
+	database.SetMaxOpenConns(1000)
 
 	if err != nil {
 		panic("Opps, get something wrong with connections.")
