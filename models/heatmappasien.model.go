@@ -29,7 +29,14 @@ type GetPenyakitByKelurahan struct {
 	Kode_icd string `json:"kode_icd"`
 	Id_rs string `json:"id_rs"`
 	Kode_kelurahan string `json:"kode_kelurahan"`
-	Jumlah_Pasien string `json:"jml_pasien"`
+	Jumlah_Pasien int `json:"jml_pasien"`
+}
+
+type Properties struct {
+	Desano string `json:"desano"`
+    NamaDesa string `json:"nama_desa"`
+    IDRs string `json:"id_rs"`
+    JmlPasien int `json:"jml_pasien"`
 }
 
 func GetPasienMapIcdData(id_provinsi, id_rs string) (Response, error) {
@@ -79,7 +86,7 @@ func GetPasienMapIcdDataV2(id_provinsi, id_rs string) ([]GetPasienMapIcd, error)
 	con := database.CreateCon()
 
 	//getPasienMapIcd
-	getPasienMapIcd := "select desano, nama_desa, id_rs, waktu from pasien_maps where id_provinsi=? and id_rs=? order by desano asc"
+	getPasienMapIcd := "select desano, nama_desa, id_rs, waktu from pasien_maps where id_provinsi=? and id_rs=? order by desano asc limit 0, 10"
 	rowsgetPasienMapIcd, err := con.Query(getPasienMapIcd, id_provinsi, id_rs)
 	if err != nil {
 		fmt.Println("Data getPasienMapIcd has been successfully loaded.")
@@ -100,4 +107,38 @@ func GetPasienMapIcdDataV2(id_provinsi, id_rs string) ([]GetPasienMapIcd, error)
 	}
 	
 	return arrobjgetPasienMapIcd, nil
+}
+
+func GetNilaiSama(id_provinsi, id_rs string) []Properties {
+
+	var DataNilaiObj Properties
+	var DataNilaiArrObj []Properties
+
+	con := database.CreateCon()
+
+	sqlQuery := `select 
+					distinct pas_m.desano, pas_m.nama_desa, pas_m.id_rs
+				from 
+					pasien_maps pas_m
+				join 
+					kelurahan_maps kel_m on kel_m.desano = pas_m.desano
+				where 
+					pas_m.id_provinsi = ?
+				and 
+					pas_m.id_rs = ?
+				and
+					kel_m.id_rs = ?
+				and
+					kel_m.id_provinsi = ?
+				order by pas_m.desano asc`
+	hasilData, _ := con.Query(sqlQuery, id_provinsi, id_rs, id_rs, id_provinsi)
+
+	defer hasilData.Close()
+
+	for hasilData.Next() {
+		_ = hasilData.Scan(&DataNilaiObj.Desano, &DataNilaiObj.NamaDesa, &DataNilaiObj.IDRs)
+		DataNilaiArrObj = append(DataNilaiArrObj, DataNilaiObj)
+	}
+
+	return DataNilaiArrObj
 }

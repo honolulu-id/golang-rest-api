@@ -39,7 +39,7 @@ type Properties struct {
 	Desano string `json:"desano"`
     NamaDesa string `json:"nama_desa"`
     IDRs string `json:"id_rs"`
-    JmlPasien string `json:"jml_pasien"`
+    JmlPasien int `json:"jml_pasien"`
 }
 
 type Coordiantes struct {
@@ -64,12 +64,10 @@ func HeatMapDataList(c echo.Context) error {
 	idProvinsi := c.QueryParams().Get("id_provinsi")
 	idRs := c.QueryParams().Get("id_rs")
 	Kode_Icd := c.QueryParams().Get("kode_icd")
+	limit := c.QueryParams().Get("limit")
 
-	resultGetGroupByDesanoData, _ := models.GetGroupByDesanoData(idProvinsi, idRs)
-	resultGetPasienMapIcdData, _ := models.GetPasienMapIcdDataV2(idProvinsi, idRs)
-
-	var nilai_sama []NilaiSama
-	var obj NilaiSama
+	nilai_sama := models.GetNilaiSamaV2(idProvinsi, idRs, limit)
+	
 	var Coordiante []Coordiantes
 	var objCoordiantes Coordiantes
 	var objPenyakitFormatv_1 PenyakitFormatvOne
@@ -78,26 +76,14 @@ func HeatMapDataList(c echo.Context) error {
 	var geometry Geometry
 
 	var propertiesObj Properties
-	
-	for _, MapIcdData := range resultGetPasienMapIcdData {
-		var Kode_Fix = MapIcdData.Desano
 
-		for _, DesanoData := range resultGetGroupByDesanoData.Data.([]models.GetGroupByDesano) {
-			if DesanoData.Desano == Kode_Fix {
-				obj.Desano = MapIcdData.Desano
-				obj.NamaDesa = MapIcdData.Nama_desa
-				obj.IDRs = MapIcdData.Id_rs
-				nilai_sama = append(nilai_sama, obj)
-			}
-		}
-
-	}
+	var res models.ResponseApi
 
 	for _, loopnilai := range nilai_sama {
 
 		var Id_Desano = loopnilai.Desano
 		var Id_RumahSakit = loopnilai.IDRs
-		Kelurahan, _ := models.GetLatLongDesanoDataV2(Id_Desano,idRs)
+		Kelurahan := models.GetLatLongDesanoDataV3(Id_Desano, idProvinsi,idRs)
 
 		for _, Koordinat := range Kelurahan {
 			objCoordiantes.Longitude = Koordinat.Longitude
@@ -126,8 +112,6 @@ func HeatMapDataList(c echo.Context) error {
 		featuresArrObj = append(featuresArrObj, featuresObj)
 	}
 
-	var res models.ResponseApi
-
 	if nilai_sama == nil {
 		res.Status = false
 		res.Message = "gagal mendapatkan data"
@@ -155,7 +139,7 @@ func HeatMapDataListBackup(c echo.Context) error {
 	var nilai_sama []NilaiSama
 	var obj NilaiSama
 	var Coordiante []Coordiantes
-	var objCoordiantes Coordiantes
+	// var objCoordiantes Coordiantes
 	// var PenyakitFormatv_1 []PenyakitFormatvOne
 	var objPenyakitFormatv_1 PenyakitFormatvOne
 	// var PenyakitFormatv_2 []PenyakitFormatvTwo
@@ -197,16 +181,16 @@ func HeatMapDataListBackup(c echo.Context) error {
 		// fmt.Println("id desano", Id_Desano)
 
 		// Kelurahan, _ := models.GetLatLongDesanoData(Id_Desano,idRs)
-		Kelurahan, _ := models.GetLatLongDesanoDataV2(Id_Desano,idRs)
+		// Kelurahan := models.GetLatLongDesanoDataV2(Id_Desano, idProvinsi, idRs)
 		// Penyakit, _ := models.GetPenyakitByKelurahanData(Kode_Icd, Id_Desano, Id_RumahSakit)
 		Penyakit, _ := models.GetPenyakitByKelurahanDataV2(Kode_Icd, Id_Desano, Id_RumahSakit)
 		// fmt.Println("data penyakit", Penyakit)
 
-		for _, Koordinat := range Kelurahan {
-			objCoordiantes.Longitude = Koordinat.Longitude
-			objCoordiantes.Latitude = Koordinat.Latitude
-			Coordiante = append(Coordiante, objCoordiantes)
-		}
+		// for _, Koordinat := range Kelurahan {
+		// 	objCoordiantes.Longitude = Koordinat.Longitude
+		// 	objCoordiantes.Latitude = Koordinat.Latitude
+		// 	Coordiante = append(Coordiante, objCoordiantes)
+		// }
 
 		// for _, Formatv_1 := range Penyakit.Data.([]models.GetPenyakitByKelurahan) {
 		// 	// fmt.Printf("Penyakit %v\n", objPenyakitFormatv_1)
@@ -239,7 +223,7 @@ func HeatMapDataListBackup(c echo.Context) error {
 		propertiesObj.JmlPasien = Penyakit.Jumlah_Pasien
 
 		geometry.Type = "MultiPolygon"
-		geometry.Coordinates = Coordiante
+		// geometry.Coordinates = Coordiante
 
 		featuresObj.Type = "Feature"
 		featuresObj.Penyakit = objPenyakitFormatv_1
@@ -251,7 +235,7 @@ func HeatMapDataListBackup(c echo.Context) error {
 	}
 
 	time.Sleep(10 * time.Second)
-	return c.JSON(http.StatusOK, Coordiante)
+	return c.JSON(http.StatusOK, featuresArrObj)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
@@ -259,7 +243,7 @@ func HeatMapDataListBackup(c echo.Context) error {
 
 	res.Status = true
 	res.Message = "Berhasil mendapatkan data"
-	res.Data = featuresArrObj
+	res.Data = Coordiante
 	return c.JSON(http.StatusOK, res)
 
 }

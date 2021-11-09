@@ -63,7 +63,12 @@ func GetPenyakitByKelurahanDataV2(kode_icd, kode_kelurahan, id_rs string) (GetPe
 
 	//getPenyakitByKelurahan
 	getPenyakitByKelurahan := `select 
-								nama_penyakit, kode, kode_icd, id_rs, kode_kelurahan,jml_pasien 
+								nama_penyakit, 
+								kode, 
+								kode_icd, 
+								id_rs, 
+								kode_kelurahan,
+								COALESCE(jml_pasien, 0) as jml_pasien
 							   from 
 							   	penyakit_maps 
 							   where 

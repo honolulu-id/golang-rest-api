@@ -45,7 +45,7 @@ func GetLatLongDesanoData(desano, id_rs string) (Response, error) {
 	return res, nil
 }
 
-func GetLatLongDesanoDataV2(desano, id_rs string) ([]GetLatLongDesano, error) {
+func GetLatLongDesanoDataV2(desano, id_provinsi, id_rs string) []GetLatLongDesano {
 	// array
 	var arrobjgetLatLongDesano []GetLatLongDesano
 
@@ -55,27 +55,19 @@ func GetLatLongDesanoDataV2(desano, id_rs string) ([]GetLatLongDesano, error) {
 	con := database.CreateCon()
 
 	//getGroupByDesano
-	getLatLongDesano := "select latitude, longitude from kelurahan_maps where desano= ? and id_rs= ?"
-	rowsgetLatLongDesano, err := con.Query(getLatLongDesano, desano, id_rs)
-	if err != nil {
-		fmt.Println("Data getLatLongDesano has been successfully loaded.")
-		return arrobjgetLatLongDesano, err
-	}
+	getLatLongDesano := "select latitude, longitude from kelurahan_maps where desano= ? and id_rs= ? and id_provinsi=?"
+	rowsgetLatLongDesano, _ := con.Query(getLatLongDesano, desano, id_rs, id_provinsi)
 
 	defer rowsgetLatLongDesano.Close()
 	//close
 
 	for rowsgetLatLongDesano.Next() {
-		err = rowsgetLatLongDesano.Scan(&objgetLatLongDesano.Latitude,&objgetLatLongDesano.Longitude)
-		if err != nil {
-			fmt.Println("Data getLatLongDesano has been successfully loaded on Rows Next.", err)
-			return arrobjgetLatLongDesano, err
-		}
+		_ = rowsgetLatLongDesano.Scan(&objgetLatLongDesano.Latitude,&objgetLatLongDesano.Longitude)
 
 		arrobjgetLatLongDesano = append(arrobjgetLatLongDesano, objgetLatLongDesano)
 	}
 	
-	return arrobjgetLatLongDesano, nil
+	return arrobjgetLatLongDesano
 }
 
 func GetGroupByDesanoData(id_provinsi, id_rs string) (Response, error) {

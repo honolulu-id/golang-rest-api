@@ -20,6 +20,10 @@ func Init() {
 	database, err = sql.Open("mysql", connectionString)
 	database.SetMaxOpenConns(1000)
 
+	// Set the maximum number of concurrently idle connections to 5. Setting this
+	// to less than or equal to 0 will mean that no idle connections are retained.
+	database.SetMaxIdleConns(5)
+
 	if err != nil {
 		panic("Opps, get something wrong with connections.")
 	}
